@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#script for /etc/issue file to display info before login"
 clear > /etc/issue
 
 echo -e "\033[0;34m Arch Linux (\l)" >> /etc/issue
