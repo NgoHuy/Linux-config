@@ -17,6 +17,7 @@ XScreenSaverInfo info;
 
 
 display = XOpenDisplay("");
+if(!display) exit(1);
 
 if (XScreenSaverQueryExtension(display, &event_base, &error_base)) {
 XScreenSaverQueryInfo(display, DefaultRootWindow(display), &info);
