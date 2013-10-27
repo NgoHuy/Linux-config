@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Author: Severus <severus@theslinux.org>
+# Purpose: Auto port PKGBUILD to s-makepkg
+# License: GPLv3
+
+
+# Error function
+function err() {
+	if [ $? -ne 0 ] ; then
+       		echo "You're wrong path. Please, go to your working directory and run command. Command exited"
+       		exit $?
+	fi
+}
+
+# Usage
+function usage() {
+
+	# make sure git in working directory
+	echo "Checking working directory..."
+	 ls .git > /dev/null 2>&1
+
+	# Print message if fails
+	err
+}
+
+# Make sure everything uptodate
+function update() {
+echo "Checking update..."
+git pull
+err
+}
+
+# Switch all branch and port it
+function _port () {
+	# Generate pkg list
+	_list=$(git branch -a | cut -d / -f3 > $HOME/pkg_list)
+	while read _pkg
+		do
+			echo ${_pkg}
+			git checkout ${_pkg}
+			file=${_pkg}/PKGBUILD
+			grep pkgname $file > /dev/null 2>&1 # Sure file is not ported
+			_status=$?
+			
+			if [ -f $file ] && [ ${_status} -eq 0 ] ; then
+				sed -i '/pkgname=.*/d' $file
+				sed -i '/pkgver=.*/d' $file
+				sed -i '/pkgrel=.*/d' $file
+				sed -i 's|pkgname|pkgbase|g' $file
+				grep "sums.*)" $file
+				_return=$?
+				if [ ${_return} -eq 0 ] ; then
+					sed -i '/.*sums=/d' $file
+				else sed -i '/.*sums.*/,/[)]/d' $file
+				fi
+				sed -i 's|Maintainer|Origin Maitainer|g' $file
+				sed -i 's|$Id:.*|Maintainer: Severus <severus@theslinux.org>|g' $file
+				sed -i 's|Contributor|Origin Contributor|g' $file
+				git add $file
+				git commit -m"Port PKGBUILD to TheSlinux form
+
++ Remove pkgname, pkgversion, pkgrelease, checksums
+
++ Change pkgname to pkgbase"
+				git push
+			fi
+		done < $HOME/pkg_list
+}
+
+usage
+update
+_port
