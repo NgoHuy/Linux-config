@@ -58,12 +58,11 @@ function _port () {
 				sed -i 's|$Id:.*|Maintainer: Severus <severus@theslinux.org>|g' $file
 				sed -i 's|Contributor|Origin Contributor|g' $file
 				git add $file
-				git commit -m"Port PKGBUILD to TheSlinux form
+				git commit -m"Prepare for TheSLinux
 
 + Remove pkgname, pkgversion, pkgrelease, checksums
-
 + Change pkgname to pkgbase"
-				git push
+				git push --force ${_pkg}
 			fi
 		done < $HOME/pkg_list
 }
