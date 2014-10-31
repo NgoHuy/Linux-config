@@ -5,7 +5,6 @@ flag=1
 function kill_() {
 	kill $pid
 	$name &
-	echo "$name killed due to use high memory" >> ~/kill.log
 }
 
 function ask_ () {
@@ -37,11 +36,11 @@ esac
 
 decide
 
-while [[ 1 ]]
+while true
 do
-	pid=$(ps -eo pmem,pid,cmd | sort -n -r | head -1 | awk '{printf("%d",$2)}')
-	mem_used=$(ps -eo pmem,pid,cmd | sort -n -r | head -1 | awk '{printf("%d",$1)}')
-	name=$(ps -eo pmem,pid,cmd | sort -n -r | head -1 | awk '{printf("%s",$3)}')
+	pid=$(pgrep $name)
+	mem_used=$(ps -eo pmem | sort -n -r | head -1 | awk '{printf("%d",$1)}')
+        name=$(ps -eo pmem,cmd | sort -n -r | head -1 | awk '{printf("%s",$2)}')
 	
 	if [[ $mem_used -gt 17 ]] ; then
 		aplay /usr/share/sounds/alsa/Front_Center.wav
@@ -50,6 +49,7 @@ do
 		else
 			ask_
 		fi
+		echo "$name killed due to use high memory at $(date)" >> ~/kill.log
 		sleep 10
 	fi
 done
