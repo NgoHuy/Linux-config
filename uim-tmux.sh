@@ -6,6 +6,11 @@
 window=$(tmux display-message -p '#W') # get window name
 lockfile="/tmp/uim.lock"
 
+prog=$(pgrep weechat)
+if [[ "$prog" == "" ]]; then
+  exit 0
+fi
+
 touch $lockfile
 
 if [[ "$window" == "irc" ]] ; then
