@@ -5,6 +5,7 @@ colors
 
 # set completion style
 export ZLS_COLORS=$LS_COLORS
+zstyle ':completion:*' hosts 'reply=(~/.ssh/config)' 
 zstyle ':completion:*' menu select
 #zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
 
@@ -15,6 +16,8 @@ zstyle ':completion:*' menu select
 source /usr/share/doc/pkgfile/command-not-found.zsh
 
 # set ignored dumps
+setopt inc_append_history
+setopt share_history
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 HISTSIZE=1000
@@ -64,20 +67,29 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 fi
 
 # set correct command
+alias sudo='nocorrect sudo'
 setopt correctall
 
+#umask
+umask 077
 # Set $PATH
 export PATH=$PATH
 
 # Set alias 
 alias ls='ls --color=auto'
 alias grep="grep --color"
+alias history="history -i"
+
+# Editor
+export EDITOR=vim
+export GIT_EDITOR=vim
 
 # Set timestamp
-export TIMEFMT="Command finished in $fg[red]real$reset_color %E $fg[red]user$reset_color %U $fg[red]sys$reset_color %S $fg[red]cpu$reset_color %P"
-export REPORTTIME
+#export TIMEFMT="Command finished in $fg[red]real$reset_color %E $fg[red]user$reset_color %U $fg[red]sys$reset_color %S $fg[red]cpu$reset_color %P"
+#export REPORTTIME
 
 # set prompt
 #PS1="%{$fg[green]%}You're%{$reset_color%} %{$fg[red]%}%n%{$reset_color%} %{$fg[green]%}AT%{$reset_color%} %{$fg[red]%}%M%{$reset_color%} %{$fg[blue]%}%c%{$reset_color%} \n $: "
 precmd() { print -rP "%{$fg[green]%}You're%{$reset_color%} %{$fg[red]%}%n%{$reset_color%} %{$fg[green]%}AT%{$reset_color%} %{$fg[red]%}%M%{$reset_color%} %{$fg[blue]%}%c%{$reset_color%}" }
 export PS1="$: "
+#alias irc="echo 1 > /tmp/uim.lock && xdotool key ctrl+space && weechat && xdotool key ctrl+space"
