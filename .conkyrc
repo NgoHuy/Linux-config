@@ -1,0 +1,78 @@
+conky.config = {
+	background = true,
+	use_xft = true,
+	xftalpha = 0.9,
+	update_interval = 1.0,
+	total_run_times = 0,
+	own_window = false,
+	own_window_type = 'normal',
+	own_window_transparent = true,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	double_buffer = true,
+	maximum_width = 400,
+	minimum_width = 230,
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = true,
+	default_color = 'FFFFFF',
+	default_shade_color = 'blue',
+	default_outline_color = 'green',
+	alignment = 'top_right',
+	gap_x = 5,
+	gap_y = 30,
+	no_buffers = true,
+	uppercase = false,
+}
+
+conky.text = [[
+	${font purisa:bold:size=12}${color FFFFFF}System ${color 3EB9DF}${hr 2}
+	${font unpush:normal:size=8}${color 00E3FF}$sysname $kernel $alignr $machine
+	${font unpush:normal:size=8}Intel Core i3 350$alignr${freq_g}Ghz
+	${font unpush:normal:size=8}Uptime $alignr${uptime}
+	${font unpush:normal:size=8}File System $alignr${fs_type}
+	${color}Date: ${color white}${time %A,%d %B}
+	${color}Time: ${color white}${time %k:%M:%S}
+	${font purisa:bold:size=12}${color FFFFFF}Processors ${color 3EB9DF}${hr 2}
+	${font unpush:normal:size=8}${color 00E3FF}CPU1  ${cpu cpu1}% ${cpubar cpu1}
+	${font unpush:normal:size=8}${color 00E3FF}CPU2  ${cpu cpu2}% ${cpubar cpu2}
+	${font unpush:normal:size=8}${color 00E3FF}CPU2  ${cpu cpu3}% ${cpubar cpu3}
+	${font unpush:normal:size=8}${color 00E3FF}CPU2  ${cpu cpu4}% ${cpubar cpu4}
+	${cpugraph}
+	${font Purisa:bold:size=12}${color FFFFFF}Memory ${color 3EB9DF}${hr 2}
+	${font unpush:normal:size=8}${color 00E3FF}Physical $alignc $mem / $memmax $alignr $memperc%
+	$membar
+	${font unpush:normal:size=8}${color 00E3FF}Swap $alignc ${swap} / ${swapmax /} $alignr ${swapperc /}%
+	${swapbar /}
+	${memgraph}
+	${font Purisa:bold:size=12}${color FFFFFF}Hard Drives ${color 3EB9DF}${hr 2}
+	${font unpush:normal:size=8}${color 00E3FF}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /}%
+	${fs_bar /}
+	${font unpush:normal:size=8}${color 00E3FF}/Home $alignc ${fs_used /home/} / ${fs_size /home/} $alignr ${fs_used_perc /home/}%
+	${fs_bar /home/}
+	${font purisa:bold:size=12}${color FFFFFF}Top Processes ${color 3EB9DF}${hr 2}
+	${font unpush:normal:size=8}${color 00E3FF}${top_mem name 1}${alignr}${top mem 1} %
+	${font unpush:normal:size=8}${color 00E3FF}${top_mem name 2}${alignr}${top mem 2} %
+	${font unpush:normal:size=8}${color 00E3FF}${top_mem name 3}${alignr}${top mem 3} %
+	${font unpush:normal:size=8}${color 00E3FF}${top_mem name 4}${alignr}${top mem 4} %
+	${font unpush:normal:size=8}${color 00E3FF}${top_mem name 5}${alignr}${top mem 5} %
+	${font purisa:bold:size=12}${color FFFFFF}Network ${color 3EB9DF}${hr 2} ${if_existing /proc/net/route wlan0}
+	${font unpush:normal:size=8}${color 00E3FF}IP on wlan0 $alignr ${addr wlan0}
+	${font unpush:normal:size=8}Connection quality $alignr ${wireless_link_qual_perc wlan0}%
+	${font unpush:normal:size=8}Downloaded $alignr  ${totaldown wlan0}
+	${font unpush:normal:size=8}Uploaded $alignr  ${totalup wlan0}
+	${downspeedgraph wlan0}
+	${font unpush:normal:size=8}Download Speed $alignr ${downspeed wlan0} kb/s
+	${upspeedgraph wlan0}
+	${font unpush:normal:size=8}Upload Speed $alignr ${upspeed wlan0} kb/s 
+	${endif}
+	${if_existing /proc/net/route eth0}
+	${font unpush:normal:size=8}${color 00E3FF}IP on eth0 $alignr ${addr eth0}
+	${font unpush:normal:size=8}Downloaded $alignr  ${totaldown eth0}
+	${font unpush:normal:size=8}Uploaded $alignr  ${totalup eth0}
+	${downspeedgraph eth0}
+	${font unpush:normal:size=8}Download Speed $alignr ${downspeed eth0} kb/s
+	${upspeedgraph eth0}
+	${font unpush:normal:size=8}Upload Speed $alignr ${upspeed eth0} kb/s 
+	${endif}
+]]
